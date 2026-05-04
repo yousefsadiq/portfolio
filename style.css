@@ -10,9 +10,9 @@
     --font-main: 'Josefin Sans';
     
     /* Image URLs */
-    --profile-img: url('/assets/Headshot.jpg');
-    --icon-location: url('/assets/location_icon.png');
-    --icon-edu: url('/assets/education_icon.png');
+    --profile-img: url('assets/Headshot.jpg');
+    --icon-location: url('assets/location_icon.png');
+    --icon-edu: url('assets/education_icon.png');
 }
 
 /* --- BASE STYLES --- */

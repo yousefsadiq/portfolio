@@ -95,33 +95,33 @@ const portfolioData = {
             // You can add as many image paths here as you want. 
             // If it's just one image, just put one in the array!
             images: [
-                "/assets/findr_ux/iPhone_Dashboard.png", 
-                "/assets/findr_ux/iPhone_Dashboard Profiles.png",
-                "/assets/findr_ux/iPhone_Friends.png",
-                "/assets/findr_ux/iPhone_Friend.png",
-                "/assets/findr_ux/iPhone_Profile.png",
-                "/assets/findr_ux/iPhone_Profile_Edit.png"
+                "assets/findr_ux/iPhone_Dashboard.png", 
+                "assets/findr_ux/iPhone_Dashboard Profiles.png",
+                "assets/findr_ux/iPhone_Friends.png",
+                "assets/findr_ux/iPhone_Friend.png",
+                "assets/findr_ux/iPhone_Profile.png",
+                "assets/findr_ux/iPhone_Profile_Edit.png"
             ]
         },
         {
             title: "University of Guelph Muslim Students Association - Logo",
             date: "August 2025",
             images: [
-                "/assets/MSA_NEWLOGO.jpg"
+                "assets/MSA_NEWLOGO.jpg"
             ]
         },
         {
             title: "St. Francis Xavier Catholic Secondary School, S.T.E.A.M. - Logo",
             date: "October 2023",
             images: [
-                "/assets/steam/dark.jpg", "/assets/steam/light.jpg"
+                "assets/steam/dark.jpg", "/assets/steam/light.jpg"
             ]
         },
         {
             title: "St. Francis Xavier Catholic Secondary School, Tech Rocks - Logo",
             date: "November 2021",
             images: [
-                "/assets/techrockslogo.jpg"
+                "assets/techrockslogo.jpg"
             ]
         }
     ]
