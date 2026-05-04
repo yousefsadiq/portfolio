@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design Portfolio | Yousef Sadiq</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="portfolio-container">
+      <!-- HEADER SECTION -->
+      <header class="profile-header">
+        <div class="profile-picture"></div>
+        <div class="profile-info">
+          <h1>Yousef Sadiq</h1>
+          <h2>Digital Specialist</h2>
+          <p class="location-edu">
+            <span class="icon location-icon"></span> Milton, Ontario, Canada<br />
+            <span class="icon edu-icon"></span> University of Toronto
+          </p>
+        </div>
+      </header>
+
+      <!-- NAVIGATION (Active state moved to Design) -->
+      <nav class="main-nav fade-in" style="animation-delay: 0.1s">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="design.html" class="nav-link active">Design Portfolio</a>
+      </nav>
+
+      <!-- DESIGN TIMELINE SECTION -->
+      <section class="design-section">
+        <!-- Data injected by app.js -->
+        <div id="design-container"></div>
+      </section>
+
+      <!-- FOOTER SECTION -->
+      <footer class="site-footer fade-in" style="animation-delay: 1s">
+        <p>
+          <!-- Make sure to replace these placeholders with your actual info! -->
+          <a href="mailto:your.email@example.com" class="footer-link"
+            >sadiqy2006@gmail.com</a
+          >
+          <span class="footer-divider">•</span>
+          <a href="tel:+11234567890" class="footer-link">647-858-6978</a>
+        </p>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

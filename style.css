@@ -1,0 +1,502 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* --- CONFIGURATION --- */
+:root {
+    --bg-color: #0a0a0a;
+    --surface-color: #151515; /* Slightly lighter for cards */
+    --text-primary: #E4F9FF;
+    --text-secondary: #ffffff;
+    --accent-color: #E4F9FF; /* Tech-forward cyan/blue accent */
+    --font-main: 'Josefin Sans';
+    
+    /* Image URLs */
+    --profile-img: url('/assets/Headshot.jpg');
+    --icon-location: url('/assets/location_icon.png');
+    --icon-edu: url('/assets/education_icon.png');
+}
+
+/* --- BASE STYLES --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+}
+
+.portfolio-container {
+    max-width: 800px;
+    width: 100%;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* --- HEADER --- */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
+    text-align: left;
+    animation: slideDown 0.8s ease-out;
+}
+
+.profile-picture {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-image: var(--profile-img);
+    background-size: 100%;
+    background-position: 70% 20%;
+}
+
+h1 {
+    font-size: 3.2rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin-bottom: 5px;
+    background: linear-gradient(90deg, #fff, #ccc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--accent-color);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.location-edu {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+/* --- NAVIGATION --- */
+.main-nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 50px;
+    padding-bottom: 20px;
+    width: 100%;
+    max-width: 650px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(228, 249, 255, 0.3);
+}
+
+/* Active underline effect */
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+/* --- DESIGN TIMELINE --- */
+.timeline-item {
+    margin-bottom: 60px;
+    text-align: left;
+    width: 100%;
+    max-width: 650px;
+}
+
+.timeline-header {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    border-left: 3px solid var(--accent-color);
+}
+
+/* --- DESIGN TIMELINE --- */
+
+.timeline-gallery {
+    display: flex;       /* Switched from Grid to Flexbox */
+    flex-wrap: wrap;     /* Tells images to wrap down a line ONLY if there is no space */
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.timeline-img {
+    /* 1. Layout Math */
+    max-width: calc(50% - 10px);
+    object-fit: cover;    /* Crops the excess height instead of squishing the image */
+    object-position: top; /* Crucial for UI: Anchors the crop so the top app header is always visible */
+}
+
+.timeline-img.single-design-item {
+    /* Step 1: Remove the hard ceiling! Now min-width would work if needed. */
+    max-width: 650px; 
+    
+    /* Step 2: Allow it to expand and fill the available width (within the container's 650px limit) */
+    width: 100%; 
+    height: auto; /* Restores natural height of the logo/single graphic */
+}
+
+/* --- TYPOGRAPHY & SECTIONS --- */
+.section-title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 30px 0 40px 0;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 2px;
+    background-color: var(--accent-color);
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* --- GENERIC ICON STYLE --- */
+/* This is the missing piece! It defines the box that the images go into. */
+.icon {
+    display: inline-block; /* Allows width/height on an inline text element */
+    width: 15px;            /* Sets the size (tweak as needed) */
+    height: 15px;
+    margin-right: 2px;      /* Adds spacing between icon and text */
+    vertical-align: middle; /* Centers the icon vertically with the text */
+    background-size: contain; /* Ensures the whole PNG fits inside the 20x20 box */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* --- SPECIFIC ICON APPLICATIONS --- */
+/* These map the variables you already set up in :root to the correct class */
+.location-icon {
+    background-image: var(--icon-location);
+}
+
+.edu-icon {
+    background-image: var(--icon-edu);
+}
+
+.about-section p {
+    margin-bottom: 20px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+}
+
+/* --- SKILLS SECTION (NEW) --- */
+.skills-category {
+    margin-bottom: 30px;
+    text-align: center;
+    max-width: 650px;
+    width: 100%;
+}
+
+.skills-category h4 {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.skill-tag {
+    background-color: rgba(35, 54, 69, 0.576);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    cursor: default; /* Explicitly tells the browser this is not clickable */
+}
+/* The :hover block has been completely deleted */
+
+/* --- DYNAMIC CARDS (Experience/Projects) --- */
+/* --- DYNAMIC CARDS --- */
+.item-block {
+    text-align: left;
+    max-width: 650px;
+    margin: 0 auto 30px auto;
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Notice transition is removed from here so Experience cards stay static */
+}
+
+/* New class specifically for clickable Project cards */
+.project-card {
+    display: block; /* Makes the whole card a clickable link */
+    text-decoration: none; /* Removes link underline */
+    color: inherit; /* Keeps text color normal */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    /* Using an rgba version of your accent color so the glow isn't overly harsh */
+    box-shadow: 0 10px 30px rgba(228, 249, 255, 0.15); 
+    border-color: var(--accent-color);
+}
+
+.item-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.item-date {
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.item-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.item-description ul {
+    list-style-type: none;
+}
+
+.item-description li {
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 15px; /* Slightly reduced from 20px for the circle */
+}
+
+.item-description li::before {
+    content: '•'; /* Changed back to a standard circle */
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-size: 1.2rem; /* Optional: Makes the dot a bit more prominent */
+    line-height: 1;
+    top: 2px; /* Aligns the dot perfectly with the text */
+}
+
+/* --- ANIMATIONS & RESPONSIVENESS --- */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- PAGE LOAD ANIMATIONS --- */
+
+/* 1. The Animation Keyframes */
+@keyframes fadeInUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* 2. The Base Class */
+.fade-in {
+    opacity: 0; /* Keeps sections hidden until their animation starts */
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* 3. The Staggered Delays (The Waterfall Effect) */
+/* The header takes 0s, so we start delaying after that */
+.about-section {
+    animation-delay: 0.2s;
+}
+
+.skills-section {
+    animation-delay: 0.4s;
+}
+
+.experience-section {
+    animation-delay: 0.6s;
+}
+
+.projects-section {
+    animation-delay: 0.8s;
+}
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .item-block {
+        padding: 20px;
+    }
+}
+
+/* --- PROJECT PAGE STYLES --- */
+.back-link {
+    align-self: flex-start;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 40px;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--accent-color);
+}
+
+.project-header {
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 650px;
+    text-align: left;
+}
+
+.project-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn {
+    /* 1. Upgrade to Flexbox for strict alignment */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* 2. Lock the line-height so it doesn't add hidden spacing */
+    line-height: 1; 
+    
+    /* 3. The Optical Nudge: Top, Right, Bottom, Left */
+    /* We subtract 1px from the top and add 1px to the bottom to push the text UP slightly */
+    padding: 11px 20px 10px 20px; 
+    
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.primary-btn {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.primary-btn:hover {
+    background-color: #ffffff;
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+
+.secondary-btn:hover {
+    background-color: rgba(228, 249, 255, 0.1);
+}
+
+.project-details {
+    max-width: 650px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.project-gallery {
+    width: 100%;
+    max-width: 650px; /* Matches the text sections above it perfectly */
+    text-align: left;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 100%; /* Changed from 800px */
+    margin-top: 20px;
+    align-items: start; 
+}
+
+.gallery-img {
+    width: 100%;
+    height: auto;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    object-fit: cover; /* Ensures images fill the box perfectly */
+}
+
+/* --- FOOTER --- */
+.site-footer {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+    max-width: 650px; /* Matches your text and nav width */
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.footer-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.footer-link:hover {
+    color: var(--accent-color);
+    text-shadow: 0 0 8px rgba(228, 249, 255, 0.3);
+}
+
+.footer-divider {
+    color: rgba(255, 255, 255, 0.2);
+    margin: 0 15px;
+    font-size: 0.8rem;
+}
