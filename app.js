@@ -114,7 +114,7 @@ const portfolioData = {
             title: "St. Francis Xavier Catholic Secondary School, S.T.E.A.M. - Logo",
             date: "October 2023",
             images: [
-                "assets/steam/dark.jpg", "/assets/steam/light.jpg"
+                "assets/steam/dark.jpg", "assets/steam/light.jpg"
             ]
         },
         {
