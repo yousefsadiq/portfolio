@@ -204,32 +204,26 @@ function renderProjects() {
     container.innerHTML = htmlContent;
 }
 
-function renderDesignPortfolio() {
-    const container = document.getElementById('design-container');
-    if (!container) return; // Exit if we aren't on the design page
+function renderProjects() {
+    const container = document.getElementById('projects-container');
+    if (!container) return; // Safety check
 
     let htmlContent = '';
-    
-    portfolioData.designWork.forEach((work, index) => {
-        // Build the HTML for the images in this specific project
-        // Detect if this is a single image project
-        let singleImageClass = work.images.length === 1 ? 'single-design-item' : '';
-        
-        let imagesHtml = work.images.map(imgSrc => `
-            <img src="${imgSrc}" alt="${work.title} Graphic" class="timeline-img ${singleImageClass}">
-        `).join('');
 
-        // Add a staggered animation delay so they load in beautifully
-        let delay = 0.2 + (index * 0.2);
+    portfolioData.projects.forEach(project => {
+        // Create the button HTML only if a link exists
+        let buttonHtml = project.link 
+            ? `<a href="${project.link}" class="btn secondary-btn view-project-btn">View Project &rarr;</a>` 
+            : '';
 
+        // Both linked and unlinked projects now share this exact same clean structure
         htmlContent += `
-            <div class="timeline-item fade-in" style="animation-delay: ${delay}s;">
-                <div class="timeline-header">
-                    <h4 class="item-title" style="font-size: 1.5rem;">${work.title}</h4>
-                    <p class="item-date" style="margin-bottom: 0;">${work.date}</p>
-                </div>
-                <div class="timeline-gallery">
-                    ${imagesHtml}
+            <div class="item-block">
+                <h4 class="item-title">${project.title}</h4>
+                <p class="item-date">${project.date}</p>
+                <div class="item-description">
+                    <p>${project.description}</p>
+                    ${buttonHtml}
                 </div>
             </div>
         `;

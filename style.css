@@ -266,22 +266,6 @@ h2 {
     /* Notice transition is removed from here so Experience cards stay static */
 }
 
-/* New class specifically for clickable Project cards */
-.project-card {
-    display: block; /* Makes the whole card a clickable link */
-    text-decoration: none; /* Removes link underline */
-    color: inherit; /* Keeps text color normal */
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.project-card:hover {
-    transform: translateY(-5px);
-    /* Using an rgba version of your accent color so the glow isn't overly harsh */
-    box-shadow: 0 10px 30px rgba(228, 249, 255, 0.15); 
-    border-color: var(--accent-color);
-}
-
 .item-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -318,6 +302,13 @@ h2 {
     font-size: 1.2rem; /* Optional: Makes the dot a bit more prominent */
     line-height: 1;
     top: 2px; /* Aligns the dot perfectly with the text */
+}
+
+/* --- IN-CARD BUTTONS --- */
+.view-project-btn {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    padding: 9px 18px 8px 18px; /* Slightly more compact than the main header buttons */
 }
 
 /* --- ANIMATIONS & RESPONSIVENESS --- */
