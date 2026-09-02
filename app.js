@@ -2,42 +2,39 @@
 // 1. THE MODEL (Your Data)
 // ==========================================
 const portfolioData = {
+    about: [
+        "My obsession with technology started in the bins of discarded motherboards at IBM and through the lens of LEGO stop-motion animation. What began as a childhood hobby of building mini-games on Scratch and teaching myself graphic design has evolved into a deep exploration of how technical architecture and human experience intersect.",
+        "Currently at the University of Toronto, I am majoring in Technology, Coding, & Society with minors in Computer Science and Geospatial Data Science. My academic work is a constant bridge between the granular and the global. I spend my time navigating the rigid logic of data structures time complexity while simultaneously analyzing the messy, complex reality of human-machine relations within our society.",
+        "I've spent the majority of my life engaging with media through tech, and I don't plan on stopping. By combining years of design experience with a rigorous technical foundation, I focus on building intuitive, media-rich products that are as computationally efficient as they are socially conscious."
+    ],
+    contact: {
+        email: "sadiqy2006@gmail.com",
+        phoneDisplay: "647-858-6978",
+        phoneLink: "+16478586978"
+    },
     skills: [
         {
             category: "Programming Languages & Data",
-            items: [
-                "Java", 
-                "Python", 
-                "C", "C#", 
-                "JavaScript", 
-                "HTML/CSS",
-                "SQL (SQLite) & NoSQL",
-                "Data Science (Pandas, NumPy)"
-            ]
+            items: ["Java", "Python", "C", "C#", "JavaScript", "HTML/CSS", "SQL (SQLite) & NoSQL", "Data Science (Pandas, NumPy)"]
         },
         {
             category: "Frameworks & Developer Tools",
-            items: [
-                "RESTful APIs", 
-                "Firebase Ecosystem", 
-                "JavaFX", 
-                "Git & Version Control", 
-                "QA & Software Testing",
-                "Agile Development"
-            ]
+            items: ["RESTful APIs", "Firebase Ecosystem", "JavaFX", "Git & Version Control", "QA & Software Testing", "Agile Development"]
         },
         {
             category: "Product & Visual Design",
-            items: [
-                "End-to-End UI/UX", 
-                "Prototyping & User Flows", 
-                "Brand Identity Systems", 
-                "Custom Iconography", "Figma",
-                "Adobe Creative Cloud"
-            ]
+            items: ["End-to-End UI/UX", "Prototyping & User Flows", "Brand Identity Systems", "Custom Iconography", "Figma", "Adobe Creative Cloud"]
         }
     ],
     experience: [
+        {
+            role: "Founder and Lead Game Developer",
+            company: "YS Studios",
+            date: "April 2026 - Present",
+            description: 'Building and publishing "The Circus That Never Left" - an upcoming horror-mystery title. As the sole developer, I handle everything from core programming to the visual identity and user experience.',
+            link: "https://store.steampowered.com/app/4829810/The_Circus_That_Never_Left/",
+            bullets:[]
+        },
         {
             role: "Digital Product Testing and Launch Intern",
             company: "PashMotors",
@@ -84,16 +81,13 @@ const portfolioData = {
             title: "Findr",
             date: "February 2026 - Present",
             description: "Findr, created by Yousef Sadiq, Stanley Wong, and Katherine Jorvina, is a way for University of Toronto Mississauga students to make new friends. It is a digital platform designed to facilitate spontaneous, in-person connections. While students typically meet through clubs or classes, these traditional avenues can be time-consuming or intimidating for many. Findr simplifies the process by showing students who is nearby on campus in real-time. By providing a glimpse into the people around them, the platform makes breaking the ice feel more natural and less awkward.",
-            link: "findr.html" // <--- Added link property here!
+            link: "findr.html"
         }
     ],
-
     designWork: [
         {
             title: "Findr UI/UX Design",
             date: "February 2026",
-            // You can add as many image paths here as you want. 
-            // If it's just one image, just put one in the array!
             images: [
                 "assets/findr_ux/iPhone_Dashboard.png", 
                 "assets/findr_ux/iPhone_Dashboard Profiles.png",
@@ -106,23 +100,17 @@ const portfolioData = {
         {
             title: "University of Guelph Muslim Students Association - Logo",
             date: "August 2025",
-            images: [
-                "assets/MSA_NEWLOGO.jpg"
-            ]
+            images: ["assets/MSA_NEWLOGO.jpg"]
         },
         {
             title: "St. Francis Xavier Catholic Secondary School, S.T.E.A.M. - Logo",
             date: "October 2023",
-            images: [
-                "assets/steam/dark.jpg", "assets/steam/light.jpg"
-            ]
+            images: ["assets/steam/dark.jpg", "assets/steam/light.jpg"]
         },
         {
             title: "St. Francis Xavier Catholic Secondary School, Tech Rocks - Logo",
             date: "November 2021",
-            images: [
-                "assets/techrockslogo.jpg"
-            ]
+            images: ["assets/techrockslogo.jpg"]
         }
     ]
 };
@@ -131,92 +119,79 @@ const portfolioData = {
 // 2. THE CONTROLLER (Rendering Logic)
 // ==========================================
 
+function renderAbout() {
+    const container = document.getElementById('about-container');
+    if (!container) return;
+
+    let htmlContent = '<h3 class="section-title">About Me</h3>';
+    portfolioData.about.forEach(paragraph => {
+        htmlContent += `<p>${paragraph}</p>`;
+    });
+    container.innerHTML = htmlContent;
+}
+
 function renderSkills() {
     const container = document.getElementById('skills-container');
-    let htmlContent = '';
+    if (!container) return;
 
+    let htmlContent = '';
     portfolioData.skills.forEach(skillSet => {
         let tagsHtml = skillSet.items.map(skill => `<span class="skill-tag">${skill}</span>`).join('');
-        
         htmlContent += `
             <div class="skills-category">
                 <h4>${skillSet.category}</h4>
-                <div class="tags-container">
-                    ${tagsHtml}
-                </div>
+                <div class="tags-container">${tagsHtml}</div>
             </div>
         `;
     });
-
     container.innerHTML = htmlContent;
 }
 
 function renderExperience() {
     const container = document.getElementById('experience-container');
-    let htmlContent = '';
+    if (!container) return;
 
+    let htmlContent = '';
     portfolioData.experience.forEach(job => {
-        let bulletsHtml = job.bullets.map(bullet => `<li>${bullet}</li>`).join('');
+        let bulletsHtml = job.bullets 
+            ? `<ul>${job.bullets.map(bullet => `<li>${bullet}</li>`).join('')}</ul>` 
+            : '';
+        
+        let descriptionHtml = job.description 
+            ? `<p style="margin-bottom: 15px;">${job.description}</p>` 
+            : '';
+
+        // Added target="_blank" and rel="noopener noreferrer"
+        let buttonHtml = job.link 
+            ? `<a href="${job.link}" target="_blank" rel="noopener noreferrer" class="btn secondary-btn view-project-btn">Learn More &rarr;</a>` 
+            : '';
+
         htmlContent += `
             <div class="item-block">
                 <h4 class="item-title">${job.role}</h4>
                 <p class="item-date">${job.company} | ${job.date}</p>
                 <div class="item-description">
-                    <ul>${bulletsHtml}</ul>
+                    ${descriptionHtml}
+                    ${bulletsHtml}
+                    ${buttonHtml}
                 </div>
             </div>
         `;
     });
-
     container.innerHTML = htmlContent;
 }
 
 function renderProjects() {
     const container = document.getElementById('projects-container');
-    let htmlContent = '';
-
-    portfolioData.projects.forEach(project => {
-        // If the project has a link, render it as an anchor tag with the hover effects
-        if (project.link) {
-            htmlContent += `
-                <a href="${project.link}" class="item-block project-card">
-                    <h4 class="item-title">${project.title}</h4>
-                    <p class="item-date">${project.date}</p>
-                    <div class="item-description">
-                        <p>${project.description}</p>
-                    </div>
-                </a>
-            `;
-        } else {
-            // If no link, render it as a standard static div (like Experience)
-            htmlContent += `
-                <div class="item-block">
-                    <h4 class="item-title">${project.title}</h4>
-                    <p class="item-date">${project.date}</p>
-                    <div class="item-description">
-                        <p>${project.description}</p>
-                    </div>
-                </div>
-            `;
-        }
-    });
-
-    container.innerHTML = htmlContent;
-}
-
-function renderProjects() {
-    const container = document.getElementById('projects-container');
-    if (!container) return; // Safety check
+    if (!container) return; 
 
     let htmlContent = '';
-
     portfolioData.projects.forEach(project => {
-        // Create the button HTML only if a link exists
+        // Added target="_blank" and rel="noopener noreferrer"
         let buttonHtml = project.link 
-            ? `<a href="${project.link}" class="btn secondary-btn view-project-btn">View Project &rarr;</a>` 
+            ? `<a href="${project.link}" target="_blank" rel="noopener noreferrer" class="btn secondary-btn view-project-btn">Learn More &rarr;</a>` 
             : '';
 
-        // Both linked and unlinked projects now share this exact same clean structure
         htmlContent += `
             <div class="item-block">
                 <h4 class="item-title">${project.title}</h4>
@@ -228,13 +203,51 @@ function renderProjects() {
             </div>
         `;
     });
-
     container.innerHTML = htmlContent;
+}
+
+function renderDesignPortfolio() {
+    const container = document.getElementById('design-container');
+    if (!container) return;
+
+    let htmlContent = '';
+    portfolioData.designWork.forEach(item => {
+        let imagesHtml = item.images.map(img => 
+            `<img src="${img}" alt="${item.title}" class="timeline-img ${item.images.length === 1 ? 'single-design-item' : ''}">`
+        ).join('');
+        
+        htmlContent += `
+            <div class="timeline-item">
+                <div class="timeline-header">
+                    <h4 class="item-title">${item.title}</h4>
+                    <p class="item-date">${item.date}</p>
+                </div>
+                <div class="timeline-gallery">
+                    ${imagesHtml}
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = htmlContent;
+}
+
+function renderFooter() {
+    const footers = document.querySelectorAll('.site-footer');
+    footers.forEach(footer => {
+        footer.innerHTML = `
+            <p>
+                <a href="mailto:${portfolioData.contact.email}" class="footer-link">${portfolioData.contact.email}</a>
+                <span class="footer-divider">•</span>
+                <a href="tel:${portfolioData.contact.phoneLink}" class="footer-link">${portfolioData.contact.phoneDisplay}</a>
+            </p>
+        `;
+    });
 }
 
 // Initialize the rendering when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // These if-statements check if the container exists on the current HTML page before trying to fill it
+    renderFooter(); 
+    if (document.getElementById('about-container')) renderAbout();
     if (document.getElementById('skills-container')) renderSkills();
     if (document.getElementById('experience-container')) renderExperience();
     if (document.getElementById('projects-container')) renderProjects();
