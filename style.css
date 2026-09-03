@@ -90,7 +90,7 @@ h2 {
 .main-nav {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 20px; /* Reduced from 40px to create room */
     margin-bottom: 50px;
     padding-bottom: 20px;
     width: 100%;
@@ -101,13 +101,14 @@ h2 {
 .nav-link {
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 0.85rem; /* Reduced from 1.1rem */
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px; /* Reduced from 2px to condense text */
     transition: color 0.3s ease, text-shadow 0.3s ease;
     padding-bottom: 5px;
     position: relative;
+    white-space: nowrap; /* Ensures the longer names stay on one line */
 }
 
 .nav-link:hover, .nav-link.active {
@@ -263,7 +264,35 @@ h2 {
     padding: 30px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    /* Notice transition is removed from here so Experience cards stay static */
+    /* New Flexbox properties to enable bottom anchoring */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Forces text content to fill empty space */
+.card-content {
+    flex-grow: 1;
+    margin-bottom: 25px;
+}
+
+/* Skills container layout */
+.card-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto; /* Safety anchor to push to bottom */
+}
+
+/* Scopes your existing tag styling to fit neatly inside the cards */
+.card-skills .skill-tag {
+    background-color: rgba(35, 54, 69, 0.576);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(79, 172, 254, 0.2);
+    cursor: default;
 }
 
 .item-title {
