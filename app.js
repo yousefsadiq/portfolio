@@ -53,7 +53,11 @@ const portfolioData = {
             bullets: [],
             skills: ["Unity", "C#", "UI/UX", "Level Design", "3D Modeling", "Animation", "Sound Design", "Project Managment", "Digital Marketing", "Version Control", "Video Editing", "Adobe Creative Cloud", "Figma", "Blender"],
             categories: ["game", "software"],
-            hasCaseStudy: true 
+            hasCaseStudy: true,
+            caseStudyLinks: {
+                game: "ysstudios-game-case-study.html",
+                software: "ysstudios-software-case-study.html"
+            } 
         },
         {
             role: "Digital Product Testing and Launch Intern",
@@ -115,7 +119,11 @@ const portfolioData = {
             description: "Findr, created by Yousef Sadiq, Stanley Wong, and Katherine Jorvina, is a way for University of Toronto Mississauga students to make new friends. It is a digital platform designed to facilitate spontaneous, in-person connections. While students typically meet through clubs or classes, these traditional avenues can be time-consuming or intimidating for many. Findr simplifies the process by showing students who is nearby on campus in real-time. By providing a glimpse into the people around them, the platform makes breaking the ice feel more natural and less awkward.",
             skills: ["HTML", "CSS", "JavaScript", "Firebase", "UI/UX", "Graphic Design", "Iconography", "Project Managment", "Git"],
             categories: ["software", "ux"],
-            hasCaseStudy: true 
+            hasCaseStudy: true,
+            caseStudyLinks: {
+                software: "findr-software-case-study.html",
+                ux: "findr-ux-case-study.html"
+            } 
         }
     ]
 };
@@ -182,13 +190,11 @@ function renderExperience() {
     const container = document.getElementById('experience-container');
     if (!container) return;
 
-    // Filter jobs based on page category
     let filteredExperience = portfolioData.experience;
     if (pageCategory !== 'all') {
         filteredExperience = filteredExperience.filter(job => job.categories.includes(pageCategory));
     }
 
-    // Hide the entire Experience section if there are no items
     if (filteredExperience.length === 0) {
         container.parentElement.style.display = 'none';
         return;
@@ -204,16 +210,17 @@ function renderExperience() {
             ? `<p style="margin-bottom: 15px;">${job.description}</p>` 
             : '';
 
-        // "See More" logic: Only show on sub-pages AND if hasCaseStudy is true
+        // Pulls the unique link for this specific job AND this specific tab
         let buttonHtml = '';
-        if (pageCategory !== 'all' && job.hasCaseStudy) {
-            buttonHtml = `<a href="case-study.html" class="btn secondary-btn view-project-btn">See More &rarr;</a>`;
+        if (pageCategory !== 'all' && job.hasCaseStudy && job.caseStudyLinks && job.caseStudyLinks[pageCategory]) {
+            buttonHtml = `<a href="${job.caseStudyLinks[pageCategory]}" class="btn secondary-btn view-project-btn">See More &rarr;</a>`;
         }
 
         let skillsHtml = job.skills && job.skills.length > 0 
             ? `<div class="card-skills">${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}</div>`
             : '';
 
+        // Button moved to the absolute bottom of the block
         htmlContent += `
             <div class="item-block">
                 <div class="card-content">
@@ -222,10 +229,10 @@ function renderExperience() {
                     <div class="item-description">
                         ${descriptionHtml}
                         ${bulletsHtml}
-                        ${buttonHtml}
                     </div>
                 </div>
                 ${skillsHtml}
+                ${buttonHtml}
             </div>
         `;
     });
@@ -236,13 +243,11 @@ function renderProjects() {
     const container = document.getElementById('projects-container');
     if (!container) return; 
 
-    // Filter projects based on page category
     let filteredProjects = portfolioData.projects;
     if (pageCategory !== 'all') {
         filteredProjects = filteredProjects.filter(project => project.categories.includes(pageCategory));
     }
 
-    // Hide the entire Projects section if there are no relevant projects
     if (filteredProjects.length === 0) {
         container.parentElement.style.display = 'none';
         return;
@@ -250,16 +255,18 @@ function renderProjects() {
 
     let htmlContent = '';
     filteredProjects.forEach(project => {
-        // "See More" logic: Only show on sub-pages AND if hasCaseStudy is true
+        
+        // Pulls the unique link for this specific project AND this specific tab
         let buttonHtml = '';
-        if (pageCategory !== 'all' && project.hasCaseStudy) {
-            buttonHtml = `<a href="case-study.html" class="btn secondary-btn view-project-btn">See More &rarr;</a>`;
+        if (pageCategory !== 'all' && project.hasCaseStudy && project.caseStudyLinks && project.caseStudyLinks[pageCategory]) {
+            buttonHtml = `<a href="${project.caseStudyLinks[pageCategory]}" class="btn secondary-btn view-project-btn">See More &rarr;</a>`;
         }
 
         let skillsHtml = project.skills && project.skills.length > 0 
             ? `<div class="card-skills">${project.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}</div>`
             : '';
 
+        // Button moved to the absolute bottom of the block
         htmlContent += `
             <div class="item-block">
                 <div class="card-content">
@@ -267,10 +274,10 @@ function renderProjects() {
                     <p class="item-date">${project.date}</p>
                     <div class="item-description">
                         <p>${project.description}</p>
-                        ${buttonHtml}
                     </div>
                 </div>
                 ${skillsHtml}
+                ${buttonHtml}
             </div>
         `;
     });

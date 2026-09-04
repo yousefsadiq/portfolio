@@ -335,9 +335,11 @@ h2 {
 
 /* --- IN-CARD BUTTONS --- */
 .view-project-btn {
-    margin-top: 20px;
-    font-size: 0.85rem;
-    padding: 9px 18px 8px 18px; /* Slightly more compact than the main header buttons */
+    align-self: center;           /* Centers the button horizontally at the bottom */
+    margin-top: 25px;             /* Adds spacing between the skills and the button */
+    padding: 12px 32px 11px 32px; /* Increased padding for a larger size */
+    font-size: 1rem;              /* Slightly larger text */
+    border-radius: 100px !important;          /* Forces a perfect oval shape */
 }
 
 /* --- ANIMATIONS & RESPONSIVENESS --- */
