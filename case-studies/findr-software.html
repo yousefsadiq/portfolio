@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Findr | Yousef Sadiq</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <!-- The JS looks for this data attribute to know which array to render -->
+  <body data-casestudy="findr-software">
+    <div class="portfolio-container">
+      <!-- Back Link -->
+      <a href="../software-dev.html" class="back-link fade-in"
+        >← Back to Software Development</a
+      >
+
+      <!-- Case Study Header -->
+      <header class="project-header fade-in" style="animation-delay: 0.1s">
+        <h1>Findr</h1>
+        <h2 style="margin-bottom: 5px">Software Development Project</h2>
+        <p class="item-date">February 2026 - April 2026</p>
+
+        <!-- Optional: External Links -->
+        <div class="project-links">
+          <a
+            href="https://findrprofile.github.io/findr/"
+            class="btn primary-btn"
+            target="_blank"
+            >Live Deployment</a
+          >
+          <a
+            href="https://github.com/findrprofile/findr"
+            class="btn secondary-btn"
+            target="_blank"
+            >GitHub Repo</a
+          >
+        </div>
+      </header>
+
+      <!-- The Javascript will inject the stacked media/text blocks exactly here -->
+      <section
+        id="case-study-container"
+        class="fade-in"
+        style="animation-delay: 0.3s"
+      ></section>
+
+      <!-- FOOTER SECTION (Data injected by app.js) -->
+      <footer
+        class="site-footer fade-in"
+        style="animation-delay: 0.5s"
+      ></footer>
+    </div>
+
+    <!-- Required for dynamic rendering -->
+    <script src="../app.js"></script>
+  </body>
+</html>

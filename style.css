@@ -522,3 +522,70 @@ h2 {
     margin: 0 15px;
     font-size: 0.8rem;
 }
+
+/* --- CASE STUDY STACKED LAYOUT --- */
+.case-study-block {
+    max-width: 650px;
+    margin: 0 auto 60px auto;
+    text-align: left;
+}
+
+.block-media {
+    margin-top: 25px; /* Moved from margin-bottom */
+    border-radius: 12px;
+    overflow: hidden; 
+}
+
+.study-img {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
+.study-code {
+    padding: 24px;
+    overflow-x: auto; /* Adds a horizontal scrollbar if the code line is too long */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    color: #a3b8cc; /* Soft contrasting color for the code text */
+    line-height: 1.5;
+    background-color: #080808; /* Slightly darker than the surface for contrast */
+    margin: 0;
+}
+
+.block-header {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.study-text {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.study-bullets {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.study-bullets li {
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.study-bullets li::before {
+    content: '•';
+    position: absolute;
+    left: -18px;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    top: -2px;
+}

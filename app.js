@@ -115,16 +115,183 @@ const portfolioData = {
     projects: [
         {
             title: "Findr",
-            date: "February 2026 - Present",
+            date: "February 2026 - April 2026",
             description: "Findr, created by Yousef Sadiq, Stanley Wong, and Katherine Jorvina, is a way for University of Toronto Mississauga students to make new friends. It is a digital platform designed to facilitate spontaneous, in-person connections. While students typically meet through clubs or classes, these traditional avenues can be time-consuming or intimidating for many. Findr simplifies the process by showing students who is nearby on campus in real-time. By providing a glimpse into the people around them, the platform makes breaking the ice feel more natural and less awkward.",
             skills: ["HTML", "CSS", "JavaScript", "Firebase", "UI/UX", "Graphic Design", "Iconography", "Project Managment", "Git"],
             categories: ["software", "ux"],
             hasCaseStudy: true,
             caseStudyLinks: {
-                software: "findr-software-case-study.html",
-                ux: "findr-ux-case-study.html"
+                software: "case-studies/findr-software.html",
+                ux: "case-studies/findr-ux.html"
             } 
         }
+    ]
+};
+
+const caseStudiesData = {
+    "findr-software": [
+        {
+            mediaType: "image",
+            mediaContent: "../assets/findr/image2.png", 
+            header: "What is Findr?",
+            body: "Findr is a mobile-first social web application designed to facilitate campus networking through real-time geolocation tracking and Firebase integration. The system's underlying architecture relies on a strict Model-View-Controller (MVC) design pattern to ensure long-term scalability and robust data privacy.",
+        },
+        {
+            header: "My Role",
+            body: [
+                "UI/UX Design & Prototyping: Owned the entire user interface and user experience design process, creating detailed initial wireframes and interactive mockups to guide product direction.",
+                "Architecture Refactoring: Re-engineered the team's initial MVP codebase into a clean Model-View-Controller architecture, drastically cutting development time for new features from days to minutes.",
+                "Geolocation & Geofencing Engine: Programmed the real-time location-tracking pipeline, implementing custom ray-casting algorithms and coordinate polygons to detect specific campus buildings and grounds",
+                "Privacy & Access Control: Built the core privacy framework, allowing users to toggle location tracking and private modes to halt background GPS polling and selectively filter visibility to accepted friends",
+                "Social & Notification Architecture: Developed the complete friends and live notification systems, including real-time friend requests, badge updates, and bidirectional profile interactions.",
+                "User Profile & Customization Suite: Implemented the full profile and profile editor modules, supporting dynamic user metadata, badge categorization, and multi-part image uploads to storage."
+            ],
+            mediaType: "image",
+            mediaContent: "../assets/findr/image5.png"
+        },
+        {
+            header: "Core Model and Data Management",
+            body: [
+                "The application isolates all structural data definitions within a dedicated User model.",
+                "This model safely maps user attributes, such as default avatars and privacy toggles, directly into a toFirestore() format for database synchronization.",
+                "By keeping the database schema encapsulated within this class, global user attributes can be expanded without rewriting database logic across the application."
+            ],
+            mediaType: "code",
+            mediaContent: `toFirestore() {
+        return {
+            name: this.name,
+            bio: this.bio,
+            avatar: this.avatar,
+            tags: this.tags,
+            lastLocation: this.lastLocation,
+            lastActive: this.lastActive,
+            friendsList: this.friendsList,
+            incomingRequests: this.incomingRequests, 
+            outgoingRequests: this.outgoingRequests,
+            locationTrackingEnabled: this.locationTrackingEnabled,
+            privateModeEnabled: this.privateModeEnabled  
+        };
+    }`
+        },
+        {
+            header: "Controller Logic and Scalable Features",
+            body: [
+                "The application logic is broken down into specialized controllers, ensuring that new capabilities can be added without touching the existing codebase.",
+                "Dedicated modules handle specific feature sets, such as the FriendsController managing real-time data listeners or the SettingsController handling system toggles.",
+                "This approach allowed the seamless integration of a real-time notification badge system simply by creating the NotificationController and passing the application instance, leaving core dashboard algorithms completely untouched."
+            ],
+            mediaType: "code",
+            mediaContent: `const app = {
+    init() {
+        // Initialize controllers
+        this.router = new AppRouter(this);
+        this.dashboardController = new DashboardController();
+        this.friendsController = new FriendsController();
+        this.profileController = new ProfileController(this);
+        this.viewUserController = new ViewUserController(this);
+        this.editController = new EditProfileController(this);
+        this.authController = new AuthController(this); 
+        this.settingsController = new SettingsController(this);
+        this.notificationController = new NotificationController(this);
+        
+        window.app = this; 
+
+        this.setupGlobalListeners();
+
+        // Initialize Firebase Auth
+        fb.initAuth((user) => {
+            if (user) {
+                this.notificationController.startListener();
+                this.dashboardController.start();
+                this.router.navigate('dashboard');
+            } else {
+                this.router.navigate('login');
+            }
+        });
+    },
+
+    setupGlobalListeners() {
+        const logoutBtn = document.getElementById('btn-logout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                if(confirm("Are you sure you want to log out?")) {
+                    await signOut(fb.auth);
+                    window.location.reload();
+                }
+            });
+        }
+    }
+};`,
+        },
+        {
+            header: "Decoupled Architecture for UI Flexibility",
+            body: "Because the application strictly separates presentation from logic, complex interface designs can be fundamentally overhauled without touching critical architecture. The AppRouter dynamically controls the interface by toggling an active CSS class to display requested DOM elements while hiding others. This routing abstraction ensures that the backend controllers only need to focus on data processing, such as the DashboardController executing Ray-Casting algorithms to evaluate coordinate-based geofences, rather than managing manual view transitions.",
+            mediaType: "image",
+            mediaContent: "../assets/findr/image4.png"
+        },
+        {
+            header: "Efficient Geofencing and Real-Time Polling",
+            body: ["Instead of relying on heavy third-party mapping SDKs, Findr maps complex campus boundaries by storing irregular mathematical polygons as hardcoded arrays of latitude and longitude coordinates.",
+                "The DashboardController evaluates a user's active GPS position against these buildings using a custom Ray-Casting algorithm. By casting a geometric ray and counting polygon edge intersections, the system instantly flips a boolean state to confirm building entry and dynamically update the interface.",
+                "To maintain this precise tracking without draining battery life, the application leverages the native navigator.geolocation.watchPosition API with high-accuracy settings enabled.",
+                "This event-driven polling approach eliminates the computational overhead of continuous manual loops, only processing data when the device's hardware registers physical movement.",
+                "Privacy is strictly enforced within this polling cycle; every time movement is registered, the callback function verifies the user's locationTrackingEnabled flag, instantly dropping the update and preventing database writes if the setting is disabled."
+            ],
+            mediaType: "code",
+            mediaContent: `locateUser() {
+        // Privacy check in case the user has changed their location settings
+        if (fb.userModel && fb.userModel.locationTrackingEnabled === false) {
+            this.setUIState("Location Disabled");
+            return;
+        }
+
+        if (!navigator.geolocation) {
+            this.setUIState("Off Campus");
+            return;
+        }
+
+        this.watchId = navigator.geolocation.watchPosition(
+            async (position) => {
+                if (fb.userModel && fb.userModel.locationTrackingEnabled === false) return;
+
+                const myLat = position.coords.latitude;
+                const myLng = position.coords.longitude;
+                
+                const detectedBuilding = this.findMyBuilding(myLat, myLng);
+                const isOnCampus = this.calculateDistance(myLat, myLng, this.CAMPUS_CENTER.lat, this.CAMPUS_CENTER.lng) <= this.CAMPUS_CENTER.radius;
+
+                // 1. Determine exactly what to tell the database
+                let newLocationString = "Off Campus";
+                
+                if (detectedBuilding) {
+                    this.currentLocationState = detectedBuilding;
+                    newLocationString = detectedBuilding.code;
+                } else if (isOnCampus) {
+                    this.currentLocationState = "Campus Grounds";
+                    newLocationString = "On Campus";
+                } else {
+                    this.currentLocationState = "Off Campus";
+                    newLocationString = "Off Campus";
+                }
+
+                // 2. Tell the database where the user is
+                if (fb.userModel) {
+                    await fb.updateUserLocation(newLocationString);
+                }
+
+                // 3. Update the UI
+                this.setUIState(this.currentLocationState);
+            },
+            (error) => {
+                console.error("GPS Error:", error);
+                this.setUIState("Off Campus"); 
+            },
+            { enableHighAccuracy: true }
+        );
+    }`
+
+        }
+        
     ]
 };
 
@@ -297,6 +464,48 @@ function renderFooter() {
     });
 }
 
+function renderCaseStudy() {
+    const container = document.getElementById('case-study-container');
+    if (!container) return;
+
+    // Detects which case study to load via a data attribute on the body tag
+    const studyId = document.body.dataset.casestudy;
+    if (!studyId || !caseStudiesData[studyId]) return;
+
+    let htmlContent = '';
+    caseStudiesData[studyId].forEach(block => {
+
+        // 1. Generate Text (Paragraph or Bullets)
+        let bodyHtml = '';
+        if (Array.isArray(block.body)) {
+            let listItems = block.body.map(item => `<li>${item}</li>`).join('');
+            bodyHtml = `<ul class="study-bullets">${listItems}</ul>`;
+        } else {
+            bodyHtml = `<p class="study-text">${block.body}</p>`;
+        }
+
+        // 2. Generate Media (Image or Code)
+        let mediaHtml = '';
+        if (block.mediaType === 'image') {
+            mediaHtml = `<img src="${block.mediaContent}" alt="${block.header}" class="study-img">`;
+        } else if (block.mediaType === 'code') {
+            // Escapes HTML tags inside the code block to prevent browser rendering issues
+            let safeCode = block.mediaContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            mediaHtml = `<pre class="study-code"><code>${safeCode}</code></pre>`;
+        }
+
+        // 3. Assemble the Block
+        htmlContent += `
+            <div class="case-study-block fade-in">
+                <h3 class="block-header">${block.header}</h3>
+                ${bodyHtml}
+                <div class="block-media">${mediaHtml}</div>
+            </div>
+        `;
+    });
+    container.innerHTML = htmlContent;
+}
+
 // Initialize the rendering when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     renderFooter(); 
@@ -305,4 +514,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('skills-container')) renderSkills();
     if (document.getElementById('experience-container')) renderExperience();
     if (document.getElementById('projects-container')) renderProjects();
+    if (document.getElementById('case-study-container')) renderCaseStudy();
 });
