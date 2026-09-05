@@ -589,3 +589,26 @@ h2 {
     font-size: 1.2rem;
     top: -2px;
 }
+
+/* --- MULTI-IMAGE GALLERY --- */
+.study-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.gallery-item {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
+/* Removes the global border/background on the wrapper ONLY when it holds a gallery */
+.block-media:has(.study-gallery) {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}

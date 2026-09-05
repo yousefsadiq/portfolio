@@ -139,10 +139,10 @@ const caseStudiesData = {
         {
             header: "My Role",
             body: [
-                "UI/UX Design & Prototyping: Owned the entire user interface and user experience design process, creating detailed initial wireframes and interactive mockups to guide product direction.",
+                "UI/UX Design & Prototyping: Owned the entire user interface and user experience design process, creating detailed initial wireframes and high-fidelity mockups to guide product direction.",
                 "Architecture Refactoring: Re-engineered the team's initial MVP codebase into a clean Model-View-Controller architecture, drastically cutting development time for new features from days to minutes.",
-                "Geolocation & Geofencing Engine: Programmed the real-time location-tracking pipeline, implementing custom ray-casting algorithms and coordinate polygons to detect specific campus buildings and grounds",
-                "Privacy & Access Control: Built the core privacy framework, allowing users to toggle location tracking and private modes to halt background GPS polling and selectively filter visibility to accepted friends",
+                "Geolocation & Geofencing Engine: Programmed the real-time location-tracking pipeline, implementing custom ray-casting algorithms and coordinate polygons to detect specific campus buildings and grounds.",
+                "Privacy & Access Control: Built the core privacy framework, allowing users to toggle location tracking and private modes to halt background GPS polling and selectively filter visibility to accepted friends.",
                 "Social & Notification Architecture: Developed the complete friends and live notification systems, including real-time friend requests, badge updates, and bidirectional profile interactions.",
                 "User Profile & Customization Suite: Implemented the full profile and profile editor modules, supporting dynamic user metadata, badge categorization, and multi-part image uploads to storage."
             ],
@@ -292,6 +292,49 @@ const caseStudiesData = {
 
         }
         
+    ],
+    "findr-ux": [
+        {
+            mediaType: "image",
+            mediaContent: "../assets/findr/image2.png", 
+            header: "What is Findr?",
+            body: "Today’s university students often have hundreds of superficial social media followers but struggle to genuinely connect with peers around them. Findr bridges this gap by highlighting shared education, interests, and hangout spots in real-time. I mapped the entire user flow and feature set from scratch to solve this specific campus networking problem, ensuring every interaction served a deliberate purpose.",
+        },
+        {
+            header: "Roles and Responsibilities",
+            body: ["Feature Set and User Flow: Mapped the complete end-to-end user journey and defined core feature mechanics to solve the specific problem of meaningful campus networking.",
+                "Created the entire visual identity from scratch, including the vibrant, two-tone logo and custom mobile-first navigation icons tailored to a Gen Z demographic.",
+                "High-Fidelity UX Mockups: Designed modular, highly reusable interface screens and components featuring a highly scannable color-coded badge system for effortless profile reading.",
+                "Coded the real-time location-tracking pipeline from scratch, utilizing custom ray-casting algorithms to accurately map complex campus boundaries.",
+                "Built the core privacy framework for location toggling alongside the complete real-time notification, friend request, and dynamic profile customization systems."
+            ],
+        },
+        {
+            mediaType: "image",
+            mediaContent: "../assets/findr_ux/logo.png",
+            header: "Brand Identity & Visual Language",
+            body: "Gen Z is moving away from hyper-minimalism, craving color and personality with a subtle retro edge. I established Findr’s visual brand by designing a striking, two-tone logo that balances this vibrant 70s-inspired energy with the professionalism expected in an esteemed educational environment. This modern, sleek aesthetic extends to the custom iconography I designed for the bottom navigation bar, optimized specifically for effortless, one-handed mobile use.",
+        },
+        {
+            mediaType: "image",
+            mediaContent: ["../assets/findr_ux/iPhone_Dashboard.png",
+                "../assets/findr_ux/iPhone_Dashboard_Profiles.png",],
+            header: "Component-Driven Design Systems",
+            body: "Rather than treating each screen as a unique canvas, I approached the UX design with Object-Oriented Programming principles in mind. I created a robust, modular design system where visual components like user cards, tag containers, and action buttons were universally reusable. This systemic approach meant that when it came time to code, the UI could be snapped together in minutes rather than days, drastically improving overall development efficiency.",
+        },
+        {
+            mediaType: "image",
+            mediaContent: ["../assets/findr_ux/iPhone_Friend.png",
+                "../assets/findr_ux/iPhone_Profile_Edit.png",],
+            header: "Dashboard & Profile Experience",
+            body: 'The dashboard merges aesthetic appeal with immediate utility. Upon opening the app, users are greeted by a visual confirmation of their current building with a large hero image. Below this, the interface populates with nearby user profiles featuring a high-density, innovative badge system. To maximize scannability, I implemented strict color coding: Interests are orange, Education/Skills are blue, and Hangout Spots are purple. This deliberate color categorization allows users to instantly identify shared traits at a glance, directly countering the opaque nature of traditional social feeds. Furthermore, clear, rounded "Add +" and minus buttons are placed intuitively on every user card to make connecting frictionless. When viewing or editing a dedicated profile, this same visual hierarchy is maintained, utilizing straightforward pencil icons and "Discard" / "Save" pill buttons to keep the user experience intuitive.',
+        },
+        {
+            mediaType: "image",
+            mediaContent: "../assets/findr_ux/iPhone_Friends.png",
+            header: "Contextual Social Awareness",
+            body: 'The Friends tab was designed to strip away clutter and focus purely on spatial relevance. Instead of an endless content feed, it provides a clean, easily digestible list showing exactly which connections were recently nearby (e.g., "DV (William G. Davis Building) • Now"). This gives users immediate contextual awareness without overwhelming them with unnecessary data.'
+        }
     ]
 };
 
@@ -484,12 +527,20 @@ function renderCaseStudy() {
             bodyHtml = `<p class="study-text">${block.body}</p>`;
         }
 
-        // 2. Generate Media (Image or Code)
+        // 2. Generate Media (Image(s) or Code)
         let mediaHtml = '';
         if (block.mediaType === 'image') {
-            mediaHtml = `<img src="${block.mediaContent}" alt="${block.header}" class="study-img">`;
+            if (Array.isArray(block.mediaContent)) {
+                // If multiple images are provided in an array, build a gallery
+                let imagesHtml = block.mediaContent.map(img => 
+                    `<img src="${img}" alt="${block.header}" class="study-img gallery-item">`
+                ).join('');
+                mediaHtml = `<div class="study-gallery">${imagesHtml}</div>`;
+            } else {
+                // Standard single image
+                mediaHtml = `<img src="${block.mediaContent}" alt="${block.header}" class="study-img">`;
+            }
         } else if (block.mediaType === 'code') {
-            // Escapes HTML tags inside the code block to prevent browser rendering issues
             let safeCode = block.mediaContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
             mediaHtml = `<pre class="study-code"><code>${safeCode}</code></pre>`;
         }
