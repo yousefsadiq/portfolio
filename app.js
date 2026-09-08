@@ -55,8 +55,8 @@ const portfolioData = {
             categories: ["game", "software"],
             hasCaseStudy: true,
             caseStudyLinks: {
-                game: "ysstudios-game-case-study.html",
-                software: "ysstudios-software-case-study.html"
+                game: "case-studies/ysstudios-game.html",
+                software: "case-studies/ysstudios-software.html"
             } 
         },
         {
@@ -334,6 +334,22 @@ const caseStudiesData = {
             mediaContent: "../assets/findr_ux/iPhone_Friends.png",
             header: "Contextual Social Awareness",
             body: 'The Friends tab was designed to strip away clutter and focus purely on spatial relevance. Instead of an endless content feed, it provides a clean, easily digestible list showing exactly which connections were recently nearby (e.g., "DV (William G. Davis Building) • Now"). This gives users immediate contextual awareness without overwhelming them with unnecessary data.'
+        }
+    ],
+    "ysstudios-game": [
+        {
+            mediaType: "image",
+            mediaContent: "../assets/ysstudios/Logo-BG.jpg",
+            header: "What is YS Studios?",
+            body: 'YS Studios is an independent game development studio dedicated to crafting deeply atmospheric, narrative-driven experiences. Founded and currently operated entirely by me, the studio focuses on building rich, immersive worlds from the ground up.'
+        },
+
+        {
+            mediaType: "image",
+            mediaContent: ["../assets/ysstudios/014.png", "../assets/ysstudios/010.png", "../assets/ysstudios/013.png", "../assets/ysstudios/012.png"],
+            header: "The Circus That Never Left",
+            body: `"The Circus That Never Left" is YS Studios' debut title. It is a psychological horror-mystery game releasing on Steam on October 12th, 2026. Players step into the role of an investigator conducting a search through the residence of a circus performer. What begins as a grounded inspection changes direction once players discover an entrance to an extensive labyrinth hidden beneath the floorboards.
+            To progress deeper underground, players examine rooms, uncover hidden mechanisms, and solve puzzles. As the descent continues, the experience shifts from quiet tension to active survival, introducing high-stakes action sequences and sudden threats that require quick reactions under pressure.`
         }
     ]
 };
