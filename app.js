@@ -350,6 +350,158 @@ const caseStudiesData = {
             header: "The Circus That Never Left",
             body: `"The Circus That Never Left" is YS Studios' debut title. It is a psychological horror-mystery game releasing on Steam on October 12th, 2026. Players step into the role of an investigator conducting a search through the residence of a circus performer. What begins as a grounded inspection changes direction once players discover an entrance to an extensive labyrinth hidden beneath the floorboards.
             To progress deeper underground, players examine rooms, uncover hidden mechanisms, and solve puzzles. As the descent continues, the experience shifts from quiet tension to active survival, introducing high-stakes action sequences and sudden threats that require quick reactions under pressure.`
+        },
+        {
+            header: "Roles and Responsibilities",
+            body: ["Gameplay & Systems Programming: Engineered all gameplay mechanics, interaction interfaces, input systems, and asynchronous scene streaming architecture in Unity (C#).", "Art Direction & 3D Asset Pipeline: Modeled original 3D props and environment meshes in Blender, authored consistent material shaders, and visually re-textured third-party assets to maintain aesthetic cohesion.", "Technical Art & Optimization: Configured real-time lighting hierarchies and post-processing profiles in Unity URP, managing draw calls, shadow rendering, and collision layers for stable performance.", "Narrative & Spatial Design: Authored the complete story, dialogue scripts, and pacing; structured environmental storytelling and puzzle progression tailored to dense, claustrophobic spaces.", "Audio Engineering & Voice Work: Recorded custom DIY foley sound effects, mixed multi-layered ambient soundscapes and scare stingers, and performed voice acting alongside others.", "Production & Steam Publishing: Managed the complete Steamworks distribution pipeline overseeing build versioning, store page marketing assets, promotional trailer editing, and external playtest feedback cycles."]
+        },
+        {
+            header: "Modular Systems",
+            body: "To maintain a scalable and modular codebase, core gameplay features rely on an interface-driven architecture that completely decouples player actions from target objects. In the combat pipeline, the WeaponController handles raycast hit detection and invokes OnShot() strictly through an IShootable interface, eliminating any direct dependencies between hit targets and the weapon itself. The interaction system mirrors this pattern using an IInteractable interface, where the player's Interactor component manages hover states and triggers Interact() events across doors, examine items, or notes without knowing their internal logic. This separation ensures that authoring new interactive puzzle mechanics or damageable props remains purely a level and puzzle design task, allowing rapid iteration without writing redundant technical glue code.",
+            mediaType: "code",
+            mediaContent: [`
+interface IInteractable
+{
+    void Interact();
+    void OnHoverEnter();
+    void OnHoverExit();
+}
+public class Interactor : MonoBehaviour
+{
+    [SerializeField] private Transform InteractorSource;
+    [SerializeField] private float InteractRange;
+    [SerializeField] private LayerMask interactLayer;
+
+    private IInteractable currentInteractable;
+
+    void Update()
+    {
+        Ray r = new Ray(InteractorSource.position, InteractorSource.forward);
+
+        if (Physics.Raycast(r, out RaycastHit hitInfo, InteractRange, interactLayer))
+        {
+            if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
+            {
+                if (interactObj != currentInteractable)
+                {
+                    if (currentInteractable != null)
+                    {
+                        currentInteractable.OnHoverExit();
+                    }
+
+                    currentInteractable = interactObj;
+                    currentInteractable.OnHoverEnter();
+                }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    currentInteractable.Interact();
+                }
+
+                return;
+            }
+        }
+
+        if (currentInteractable != null)
+        {
+            currentInteractable.OnHoverExit();
+            currentInteractable = null;
+        }
+    }
+}
+`, 
+        `public interface IShootable
+{
+    void OnShot(float damage);
+    void Die();
+}
+
+public class WeaponController : MonoBehaviour
+{
+    [Header("Raycast Setup")]
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private LayerMask targetMask;
+    [SerializeField] private float range = 50f;
+    [SerializeField] private float damage = 25f;
+
+    [Header("Ammo")]
+    [SerializeField] private int maxAmmo = 10;
+    private int currentAmmo;
+
+    public void Shoot()
+    {
+        if (currentAmmo <= 0) return;
+        currentAmmo--;
+
+        Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, range, targetMask))
+        {
+            if (hit.collider.TryGetComponent(out IShootable target))
+            {
+                target.OnShot(damage);
+            }
+        }
+    }
+}`]
+        },
+        {
+            header: "Item Inspection & Examination System",
+            body: "To support environmental storytelling in dense spaces, the inspection system uses context-sensitive UI and input remapping to provide tactile interactions without visual clutter. When examining physical props, the system locks player movement and remaps inputs to 3D object rotation, orientation resets, and contextual inventory pickup. Interacting with notes transitions the interface into a legible document view with dedicated page-turning controls. Gating these interactions behind two-tier proximity prompts keeps cluttered rooms readable, allowing players to physically investigate clues and piece together the narrative at their own pace without overwhelming the screen with interface noise.",
+            mediaType: "video",
+            mediaContent: ["../assets/ysstudios/inspection01.mp4", "../assets/ysstudios/inspection02.mp4"]
+        },
+        {
+            header: "Event-Driven Puzzle Logic",
+            body: "To optimize performance and avoid unnecessary frame-by-frame polling, puzzle mechanics utilize an event-driven architecture rather than relying on standard Update() loops. In the AC Vent puzzle, the main vent controller does not actively check the status of its child objects every frame. Instead, the individual screws act as observable subjects; when the player interacts with a screw, it executes its local animation and dispatches a callback to the vent manager. The manager then decrements the required count and dynamically triggers the sequence to drop the trapdoor only once the exact win condition is met. This approach eliminates continuous CPU overhead, keeping the codebase performant and ensuring state changes execute exactly when needed.",
+            mediaType: "code",
+            mediaContent: [`
+public class ACVent : MonoBehaviour
+{
+    [SerializeField] private List<GameObject> screws;
+
+    public void lostScrew(GameObject screw)
+    {
+        if (screws.Count > 0)
+        {
+            screw.layer = 0;
+            screws.Remove(screw);
+        }
+
+        if (screws.Count == 0)
+        {
+            StartCoroutine(OpenDoorRoutine());
+        }
+    }
+}`,
+`
+public class Screw : MonoBehaviour, IInteractable
+{
+    [SerializeField] private GameObject ePrompt;
+    [SerializeField] private GameObject interactIcon;
+    private Animation anim;
+    private GameObject acVent;
+
+    public void Interact()
+    {
+        ePrompt.SetActive(false);
+        interactIcon.SetActive(false);
+        anim.Play();
+        acVent.GetComponent<ACVent>().lostScrew(this.gameObject);
+    }
+}`]
+        },
+        {
+            header: "Additive Scene Managment",
+            body: "To preserve uninterrupted tension and avoid immersion-breaking loading screens, the game uses asynchronous additive scene streaming engineered around player pacing. Adjacent environments are loaded ahead of time within transition corridors or masked behind scripted animation beats such as navigating tight crawlspaces or interacting with puzzle sequences, ensuring real-time streaming remains unnoticeable without frame drops. Memory overhead is strictly managed by permanently purging completed zones that the player will never revisit, while bidirectional areas stream out dynamically once the player moves beyond specific distance thresholds. To maintain visual continuity and collision integrity across these thresholds, shared transitional assets like interconnecting doors and vent frames are migrated to DontDestroyOnLoad, preventing boundary objects from despawning while background scenes cycle in memory.",
+            mediaType: "video",
+            mediaContent: ["../assets/ysstudios/additive01.mp4", "../assets/ysstudios/additive02.mp4"]
+        },
+        {
+            header: "Scripted Transitions & Control Handoff",
+            body: `To preserve unbroken first-person immersion during traversal and narrative beats, scripted sequences use seamless camera alignment, continuous single-take transitions, and clear UI state feedback. Contextual interactions like ducking under trapdoors or clearing high jumps transition smoothly into authored animations, handing control back at the exact termination vector to eliminate camera snapping or positional desynchronization. For larger narrative set pieces, the system dynamically commandeers the player's walk cycle and blends directly into cinematic events as an unbroken "oner" shot, maintaining spatial continuity without immersion-breaking camera cuts. To eliminate player confusion around agency, the crosshair smoothly fades out the instant control is surrendered and fades back in the moment full manual input is restored, providing an immediate, non-intrusive indicator of when they are safe to move.`,
+            mediaType: "video",
+            mediaContent: ["../assets/ysstudios/scripted01.mp4", "../assets/ysstudios/scripted02.mp4"]
         }
     ]
 };
@@ -543,22 +695,37 @@ function renderCaseStudy() {
             bodyHtml = `<p class="study-text">${block.body}</p>`;
         }
 
-        // 2. Generate Media (Image(s) or Code)
+        // 2. Generate Media (Image, Video, or Code)
         let mediaHtml = '';
         if (block.mediaType === 'image') {
             if (Array.isArray(block.mediaContent)) {
-                // If multiple images are provided in an array, build a gallery
                 let imagesHtml = block.mediaContent.map(img => 
                     `<img src="${img}" alt="${block.header}" class="study-img gallery-item">`
                 ).join('');
                 mediaHtml = `<div class="study-gallery">${imagesHtml}</div>`;
             } else {
-                // Standard single image
                 mediaHtml = `<img src="${block.mediaContent}" alt="${block.header}" class="study-img">`;
             }
+        } else if (block.mediaType === 'video') {
+            if (Array.isArray(block.mediaContent)) {
+                let videosHtml = block.mediaContent.map(vid => 
+                    `<video src="${vid}" class="study-video gallery-item" autoplay loop muted playsinline></video>`
+                ).join('');
+                mediaHtml = `<div class="study-gallery">${videosHtml}</div>`;
+            } else {
+                mediaHtml = `<video src="${block.mediaContent}" class="study-video" autoplay loop muted playsinline></video>`;
+            }
         } else if (block.mediaType === 'code') {
-            let safeCode = block.mediaContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            mediaHtml = `<pre class="study-code"><code>${safeCode}</code></pre>`;
+            if (Array.isArray(block.mediaContent)) {
+                let codesHtml = block.mediaContent.map(codeStr => {
+                    let safeCode = codeStr.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    return `<pre class="study-code"><code>${safeCode}</code></pre>`;
+                }).join('');
+                mediaHtml = `<div class="study-code-group">${codesHtml}</div>`;
+            } else {
+                let safeCode = block.mediaContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                mediaHtml = `<pre class="study-code"><code>${safeCode}</code></pre>`;
+            }
         }
 
         // 3. Assemble the Block

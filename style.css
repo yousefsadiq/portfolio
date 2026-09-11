@@ -536,7 +536,7 @@ h2 {
     overflow: hidden; 
 }
 
-.study-img {
+.study-img, .study-video {
     width: 300px;
     height: auto;
     display: block;
@@ -608,6 +608,26 @@ h2 {
 
 /* Removes the global border/background on the wrapper ONLY when it holds a gallery */
 .block-media:has(.study-gallery) {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+/* --- MULTI-CODE BLOCK GROUP --- */
+.study-code-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between code blocks */
+    width: 100%;
+}
+
+.study-code-group .study-code {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Removes the global border/background on the wrapper when it holds grouped code */
+.block-media:has(.study-code-group) {
     background-color: transparent;
     border: none;
     border-radius: 0;
