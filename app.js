@@ -36,7 +36,7 @@ const portfolioData = {
             },
             { 
                 category: "UI & Visual Design", 
-                items: ["High-Fidelity Mockups", "Design Systems", "Brand Identity & Systems", "User Flows"] 
+                items: ["High-Fidelity Mockups", "Design Systems", "Brand Identity", "User Flows"] 
             },
             { 
                 category: "Software", 
