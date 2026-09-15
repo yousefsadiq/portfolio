@@ -66,7 +66,7 @@ const portfolioData = {
             bullets: [
                 "Executed end-to-end functional and usability testing on web and mobile platforms to identify and document 100+ bugs and UX inconsistencies, enhancing overall product stability prior to launch.",
                 "Analyzed and synthesized user feedback from pre- and post-launch phases using structured reporting tools, producing data-driven UX improvement recommendations that informed design refinements.",
-                "Collaborated cross-functionally with design and engineering teams to translate test findings into actionable UX/UI updates, supporting a smoother product rollout and improved user satisfaction metrics."
+                "Collaborated cross-functionally with design and engineering teams to translate test findings into actionable UI/UX updates, supporting a smoother product rollout and improved user satisfaction metrics."
             ],
             skills: ["QA Testing", "UI/UX", "Web Design", "Digital Marketing", "Market Research"],
             categories: ["ux"],
@@ -77,9 +77,9 @@ const portfolioData = {
             company: "Canadian Business Disability Inclusion Network",
             date: "September 2025 - November 2025",
             bullets: [
-                "Delivered cohesive brand identities that enhanced organizational visibility by developing end-to-end visual systems and marketing assets aligned with strategic goals.",
-                "Translated executive vision into design solutions by collaborating with senior leadership to create visuals that advanced key business initiatives.",
-                "Strengthened brand consistency across digital and print platforms by enforcing design standards and ensuring alignment with core brand guidelines."
+                "Authored a comprehensive 13-page brand guideline entirely from scratch, assuming full design leadership and strategic decision-making to establish core visual identity rules, typographic hierarchies, color palettes, and strict asset usage standards.",
+                "Partnered directly with senior executive leadership to translate high-level business objectives into scalable visual systems, executing end-to-end marketing collateral and digital assets that directly accelerated key organizational initiatives.",
+                "Optimized multi-format brand deliverables across digital interfaces and physical print, structuring modular vector assets, standardized dimension presets, and high-resolution export pipelines to eliminate distortion and pixelation across diverse screen densities and print collateral."
             ],
             skills: ["Brand Identity", "Visual Systems", "Graphic Design", "Adobe Creative Cloud", "Figma"],
             categories: ["ux"],
