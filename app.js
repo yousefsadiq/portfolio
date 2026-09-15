@@ -79,7 +79,7 @@ const portfolioData = {
             bullets: [
                 "Authored a comprehensive 13-page brand guideline entirely from scratch, assuming full design leadership and strategic decision-making to establish core visual identity rules, typographic hierarchies, color palettes, and strict asset usage standards.",
                 "Partnered directly with senior executive leadership to translate high-level business objectives into scalable visual systems, executing end-to-end marketing collateral and digital assets that directly accelerated key organizational initiatives.",
-                "Optimized multi-format brand deliverables across digital interfaces and physical print, structuring modular vector assets, standardized dimension presets, and high-resolution export pipelines to eliminate distortion and pixelation across diverse screen densities and print collateral."
+                "Optimized multi-format brand deliverables across digital interfaces and print, structuring modular vector assets, standardized dimension presets, and high-resolution export pipelines to eliminate distortion across screen densities and print collateral."
             ],
             skills: ["Brand Identity", "Visual Systems", "Graphic Design", "Adobe Creative Cloud", "Figma"],
             categories: ["ux"],
